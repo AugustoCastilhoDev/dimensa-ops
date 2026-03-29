@@ -4,6 +4,7 @@ RUN apt-get update && apt-get install -y \
     git curl libpng-dev libonig-dev libxml2-dev \
     libzip-dev zip unzip \
     libfreetype6-dev libjpeg62-turbo-dev \
+    nodejs npm \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql mbstring exif bcmath zip gd
 
@@ -13,6 +14,8 @@ WORKDIR /var/www/html
 COPY . .
 
 RUN composer install --optimize-autoloader --no-dev --no-interaction
+
+RUN npm install && npm run build
 
 RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache

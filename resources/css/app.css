@@ -1,0 +1,17 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+ 
+/* Customizacoes da Dimensa */
+:root {
+    --dimensa-blue:  #1A56A5;
+    --dimensa-green: #6DB33F;
+}
+.navbar-dimensa { background-color: var(--dimensa-blue); }
+.btn-dimensa    { background-color: var(--dimensa-blue); color: #fff; }
+.badge-status-1 { background-color: #6c757d; }  /* DIGITANDO */
+.badge-status-2 { background-color: #0dcaf0; }  /* PRE-ANALISE */
+.badge-status-3 { background-color: #ffc107; }  /* EM ANALISE */
+.badge-status-4 { background-color: #fd7e14; }  /* PARA ASSINATURA */
+.badge-status-5 { background-color: #0d6efd; }  /* ASSINATURA CONCLUIDA */
+.badge-status-6 { background-color: #198754; }  /* APROVADA */
+.badge-status-7 { background-color: #dc3545; }  /* CANCELADA */
+.badge-status-8 { background-color: #20c997; }  /* PAGO AO CLIENTE */

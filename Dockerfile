@@ -14,10 +14,6 @@ COPY . .
 
 RUN composer install --optimize-autoloader --no-dev --no-interaction
 
-RUN php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
-
 RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 

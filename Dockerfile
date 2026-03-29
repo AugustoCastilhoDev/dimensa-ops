@@ -1,11 +1,12 @@
-FROM php:8.3-fpm
+FROM php:8.3-apache
 
 RUN apt-get update && apt-get install -y \
     git curl libpng-dev libonig-dev libxml2-dev \
-    libzip-dev zip unzip nginx \
+    libzip-dev zip unzip \
     libfreetype6-dev libjpeg62-turbo-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_mysql mbstring exif bcmath zip gd
+    && docker-php-ext-install pdo_mysql mbstring exif bcmath zip gd \
+    && a2enmod rewrite
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -14,15 +15,13 @@ COPY . .
 
 RUN composer install --optimize-autoloader --no-dev --no-interaction
 
-RUN cp .env.example .env \
-    && php artisan key:generate \
-    && php artisan config:cache \
+RUN php artisan config:cache \
     && php artisan route:cache \
     && php artisan view:cache
 
-RUN chown -R www-data:www-data storage bootstrap/cache
+RUN chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
-COPY docker/nginx.conf /etc/nginx/sites-enabled/default
+COPY docker/apache.conf /etc/apache2/sites-enabled/000-default.conf
 
 EXPOSE 80
-CMD service nginx start && php-fpm
